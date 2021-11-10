@@ -6,14 +6,26 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=ecommerce
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    restart: always
+    expose:
+    - "5432"
+    ports:
+      - "5432:5432"
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}   # set to something in .env to enable debug toolbar
+      # These are copied to the aws cloudformation files too
+      DATABASE_HOST: db
+      DATABASE_NAME: ecommerce
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
     ports:
       - "8000:8000"
     depends_on:
