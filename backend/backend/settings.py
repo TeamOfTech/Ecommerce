@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'corsheaders',
+    "graphene_django",
     
     # My Apps
     'products',
@@ -99,6 +100,7 @@ DATABASES = {
         # 'PASSWORD': 'postgres',
         # 'HOST': 'db',
         # 'PORT': 5432,
+        
     }
 }
 
@@ -158,3 +160,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ]
 }
+
+GRAPHENE = {"SCHEMA": "products.schema.schema"}
