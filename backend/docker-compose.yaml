@@ -1,7 +1,7 @@
 version: "3.9"
    
 services:
-  db:
+  ecommerce:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -14,19 +14,32 @@ services:
     - "5432"
     ports:
       - "5432:5432"
+    healthcheck:
+      test: "pg_isready --username=postgres && psql --username=postgres --list"
+      interval: 5s
+      timeout: 5s
+      retries: 5
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command:
+      - /bin/sh
+      - -c
+      - |
+        pip install -r requirements.txt
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .:/usr/src/backend
     environment:
-      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}   # set to something in .env to enable debug toolbar
+      DJANGO_SECRET_KEY: 'fred'   # set to something in .env to enable debug toolbar
       # These are copied to the aws cloudformation files too
-      DATABASE_HOST: db
+      DATABASE_HOST: ecommerce
       DATABASE_NAME: ecommerce
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      ecommerce:
+        condition: service_healthy
+    
