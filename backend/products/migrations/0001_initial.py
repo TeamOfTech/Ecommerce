@@ -8,20 +8,33 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=250)),
-                ('description', models.TextField(blank=True, default='')),
-                ('price', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0)])),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=250)),
+                ("description", models.TextField(blank=True, default="")),
+                (
+                    "price",
+                    models.IntegerField(
+                        default=0,
+                        validators=[django.core.validators.MinValueValidator(0)],
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Products',
+                "verbose_name": "Products",
             },
         ),
     ]
