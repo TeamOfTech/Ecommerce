@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "graphene_django",
+    "drf_test_generator",
     # My Apps
     "products",
 ]
